@@ -12,16 +12,19 @@ class Login extends React.Component {
 			password: ''
 		};
 	}
-	render() { return (
-		<div>
-			<MessageBanner ref="messageBanner" />
-
-			<div style={{textAlign:'center'}}>
+	componentDidMount() {
+		if (this.props.location.query.error == 'auth') {
+			this.refs.messageBanner.showMessage('Error authenticating');
+		}
+	}
+	render() {
+		return (
+			<div style={{textAlign:'center', paddingTop:'30vh'}}>
+				<MessageBanner ref="messageBanner" />
 				<GoogleButton preposition="in" />
 			</div>
-
-		</div>
-	); }
+		);
+	}
 }
 
 module.exports = withRouter(Login);

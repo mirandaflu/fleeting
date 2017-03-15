@@ -1,0 +1,61 @@
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+	color: white;
+}
+
+.button-success {
+	background: rgb(28, 184, 65); /* this is a green */
+}
+
+.button-error {
+	background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.button-warning {
+	background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.button-secondary {
+	background: rgb(66, 184, 221); /* this is a light blue */
+}
+.button-xsmall {
+	font-size: 70%;
+}
+
+.button-small {
+	font-size: 85%;
+}
+
+.button-large {
+	font-size: 110%;
+}
+
+.button-xlarge {
+	font-size: 125%;
+}
+
+.pure-button:hover {
+	background-image: linear-gradient(rgba(0,0,0,.08), rgba(0,0,0,.08));
+}
+.pure-button:active {
+	background-image: linear-gradient(rgba(255,255,255,.08), rgba(255,255,255,.08));
+}
+
+#google-button {
+	background-color: white;
+	font-weight: 500;
+}
+#google-button:hover {
+	background-color: white;
+	background-image: none;
+	box-shadow:
+		0 0 10px 2px rgba(72,133,237,0.24),
+		0 0 10px 2px rgba(72,133,237,0.22),
+		0 0 10px 2px rgba(72,133,237,0.3);
+}
+#google-button:active {
+	background-color: #E6E6E6;
+	background-image: none;
+}

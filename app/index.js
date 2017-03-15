@@ -11,9 +11,14 @@ import Skeleton from './components/skeleton.jsx';
 import Login from './pages/login.jsx';
 import Logout from './pages/logout.jsx';
 import Home from './pages/home.jsx';
+import Account from './pages/account.jsx';
 import Error from './pages/error.jsx';
 
 import { base, buttons, forms, grids, menus, tables } from 'pure-css';
+import 'animate.css/animate.min.css';
+import './css/custom.css';
+import './css/colors.css';
+import './css/buttons.css';
 
 if (module.hot) {
 	module.hot.accept();
@@ -40,6 +45,7 @@ class Root extends React.Component {
 			<Router history={browserHistory}>
 				<Route path="/" component={Skeleton}>
 					<IndexRoute component={Home} onEnter={requireAuth}></IndexRoute>
+					<Route path="account" component={Account} onEnter={requireAuth} />
 					<Route path="login" component={Login}></Route>
 					<Route path="logout" component={Logout} onEnter={feathers_app.logout}></Route>
 					<Route path="*" component={Error} />
@@ -54,5 +60,10 @@ feathers_app.authenticate().catch(error => {
 	console.error('Error authenticating!', error);
 }).then(result => {
 	render( <Root />, document.getElementById('app') );
+	feathers_app.service('users').on('patched', function(user) {
+		if (user._id == feathers_app.get('user')._id) {
+			feathers_app.set('user', user);
+		}
+	});
 });
 

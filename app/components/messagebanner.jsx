@@ -1,5 +1,26 @@
 import React from 'react';
 
+class Banner extends React.Component {
+	componentDidMount() {
+		this.refs.banner.className = "alert creamsicle maroon-text animated shake";
+	}
+	componentWillUnmount() {
+		this.refs.banner.className = "alert creamsicle maroon-text";
+	}
+	render() {
+		return (
+			<div ref="banner" style={{width:'70%',margin:'0 auto', padding:'8pt'}}>
+				<button type="button" className="pure-button" style={{float:'right'}} onClick={this.props.closeClick}>
+					<i className="fa fa-close" />
+				</button>
+				<p>
+					{this.props.text}
+				</p>
+			</div>
+		);
+	}
+}
+
 export default class MessageBanner extends React.Component {
 	constructor(props) {
 		super(props);
@@ -14,13 +35,8 @@ export default class MessageBanner extends React.Component {
 	}
 	render() {
 		return (
-			<div>
-				{this.state.messageText &&
-					<div className="alert alert-info animated fadeIn">
-						<button type="button" onClick={this.clearMessage.bind(this)}>x</button>
-						{this.state.messageText}
-					</div>
-				}
+			<div className="messagebanner" style={{textAlign:'center', margin:'8pt'}}>
+				{this.state.messageText && <Banner text={this.state.messageText} closeClick={this.clearMessage.bind(this)} />}
 			</div>
 		);
 	}

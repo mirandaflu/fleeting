@@ -5,7 +5,7 @@ export default class GoogleButton extends React.Component {
 		return (
 			<a href="/auth/google"
 				id="google-button"
-				className="pure-button withshadow"
+				className="pure-button creamsicle-glow"
 				style={{padding:'11px 8px',height:'40px'}}>
 				
 				<img style={{height:'18px',width:'18px'}}

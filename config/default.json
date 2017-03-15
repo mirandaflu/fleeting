@@ -16,6 +16,9 @@
       }
     },
     "successRedirect": "/",
+    "shouldSetupSuccessRoute": false,
+    "failureRedirect": "/login?error=auth",
+    "shouldSetupFailureRoute": false,
     "failureFlash": true
   }
 }
