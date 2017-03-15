@@ -1,0 +1,21 @@
+{
+  "host": "itemized-mirandaflu.herokuapp.com/",
+  "port": "PORT",
+  "mongodb": "MONGODB",
+  "public": "../app/",
+  "auth": {
+    "token": {
+      "secret": "FEATHERS_AUTH_SECRET"
+    },
+    "google": {
+      "clientID": "GOOGLE_OAUTH_CLIENT_ID",
+      "clientSecret": "GOOGLE_OAUTH_CLIENT_SECRET",
+      "permissions": {
+        "authType": "rerequest",
+        "scope": ["profile"]
+      }
+    },
+    "successRedirect": "/",
+    "failureFlash": true
+  }
+}

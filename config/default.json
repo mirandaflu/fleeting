@@ -1,0 +1,21 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "mongodb": "mongodb://localhost:27017/fleeting",
+  "public": "../app/",
+  "auth": {
+    "token": {
+      "secret": "AUTH_SECRET"
+    },
+    "google": {
+      "clientID": "GOOGLE_OAUTH_CLIENT_ID",
+      "clientSecret": "GOOGLE_OAUTH_CLIENT_SECRET",
+      "permissions": {
+        "authType": "rerequest",
+        "scope": ["profile"]
+      }
+    },
+    "successRedirect": "/",
+    "failureFlash": true
+  }
+}
