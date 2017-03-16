@@ -7,19 +7,19 @@ const logger = require('./logger');
 
 const aws = require('aws-sdk');
 
-aws.config.update({
-	accessKeyId: 'S3_ACCESS_ID',
-	secretAccessKey: 'S3_ACCESS_KEY'
-});
-
 module.exports = function() {
 	// Add your custom middleware here. Remember, that
 	// just like Express the order matters, so error
 	// handling middleware should go last.
 	const app = this;
 
+	aws.config.update({
+		accessKeyId: app.get('s3').accessKeyId,
+		secretAccessKey: app.get('s3').secretAccessKey
+	});
+
 	app.use('/s3', require('react-s3-uploader/s3router')({
-		bucket: 'S3_BUCKET',
+		bucket: app.get('s3').bucket,
 		ACL: 'public-read',
 		uniquePrefix: true
 	}));
