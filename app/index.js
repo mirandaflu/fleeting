@@ -16,6 +16,7 @@ import Account from './pages/account.jsx';
 import Error from './pages/error.jsx';
 
 import { base, buttons, forms, grids, menus, tables } from 'pure-css';
+import 'react-select/dist/react-select.css';
 import 'animate.css/animate.min.css';
 import './css/custom.css';
 import './css/colors.css';

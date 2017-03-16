@@ -58,6 +58,7 @@
     "react-dom": "^15.4.2",
     "react-router": "^2.8.1",
     "react-s3-uploader": "^4.0.3",
+    "react-select": "^1.0.0-rc.3",
     "request": "^2.69.0",
     "serve-favicon": "^2.3.0",
     "socket.io-client": "^1.7.2",

@@ -23,7 +23,6 @@ export default class PhotoTaker extends React.Component {
 					setTimeout(function () {
 						canvas.width = video.videoWidth;
 						canvas.height = video.videoHeight;
-						console.log("Stream dimensions: " + video.videoWidth + "x" + video.videoHeight);
 					}, 500);
 				});
 			});
@@ -57,14 +56,32 @@ export default class PhotoTaker extends React.Component {
 					};
 				return axios.put(signedUrl, blob, options);
 			}).then(result => {
-				console.log(result);
-				let image = {
+				let query = {
 					user: feathers_app.get('user')._id,
-					group: this.props.group,
-					path: result.request.responseURL.split('?')[0]
+					group: this.props.group
 				};
-				console.log(image);
-				feathers_app.service('images').create(image).catch(console.error);
+				feathers_app.service('images').find({query:query})
+					.then(images => {
+						let path = result.request.responseURL.split('?')[0];
+						if (images.length == 0) {
+							let image = {
+								user: feathers_app.get('user')._id,
+								group: this.props.group,
+								path: path
+							};
+							feathers_app.service('images').create(image).then(result => {
+								this.props.onFinished();
+							}).catch(console.error);
+						}
+						else {
+							// TODO: delete old image from S3
+							feathers_app.service('images').patch(images[0]._id, {
+								path: path
+							}).then(result => {
+								this.props.onFinished();
+							}).catch(console.error);	
+						}
+					}).catch(console.error);
 			}).catch(console.error);
 		});
 	}
