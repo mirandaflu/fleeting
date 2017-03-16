@@ -38,6 +38,10 @@ function requireAuth(nextState, replace, callback) {
 		replace('/login');
 		callback();
 	}
+	else if (!feathers_app.get('user').username) {
+		replace('/account');
+		callback();
+	}
 	else { callback(); }
 }
 
