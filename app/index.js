@@ -11,6 +11,7 @@ import Skeleton from './components/skeleton.jsx';
 import Login from './pages/login.jsx';
 import Logout from './pages/logout.jsx';
 import Home from './pages/home.jsx';
+import Group from './pages/group.jsx';
 import Account from './pages/account.jsx';
 import Error from './pages/error.jsx';
 
@@ -45,6 +46,7 @@ class Root extends React.Component {
 			<Router history={browserHistory}>
 				<Route path="/" component={Skeleton}>
 					<IndexRoute component={Home} onEnter={requireAuth}></IndexRoute>
+					<Route path="group/:group" component={Group} onEnter={requireAuth} />
 					<Route path="account" component={Account} onEnter={requireAuth} />
 					<Route path="login" component={Login}></Route>
 					<Route path="logout" component={Logout} onEnter={feathers_app.logout}></Route>

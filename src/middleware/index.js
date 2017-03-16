@@ -5,11 +5,24 @@ const handler = require('feathers-errors/handler');
 const notFound = require('./not-found-handler');
 const logger = require('./logger');
 
+const aws = require('aws-sdk');
+
+aws.config.update({
+	accessKeyId: 'S3_ACCESS_ID',
+	secretAccessKey: 'S3_ACCESS_KEY'
+});
+
 module.exports = function() {
 	// Add your custom middleware here. Remember, that
 	// just like Express the order matters, so error
 	// handling middleware should go last.
 	const app = this;
+
+	app.use('/s3', require('react-s3-uploader/s3router')({
+		bucket: 'S3_BUCKET',
+		ACL: 'public-read',
+		uniquePrefix: true
+	}));
 
 	// redirect to https in production
 	app.get('*', function(req,res,next) {

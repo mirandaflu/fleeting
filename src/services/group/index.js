@@ -1,26 +1,26 @@
 'use strict';
 
 const service = require('feathers-mongoose');
-const user = require('./user-model');
+const group = require('./group-model');
 const hooks = require('./hooks');
 
-module.exports = function(){
+module.exports = function() {
 	const app = this;
 
-	let options = {
-		Model: user,
+	const options = {
+		Model: group,
 		paginate: false
 	};
 
 	// Initialize our service with any options it requires
-	app.use('/users', service(options));
+	app.use('/groups', service(options));
 
 	// Get our initialize service to that we can bind hooks
-	const userService = app.service('/users');
+	const groupService = app.service('/groups');
 
 	// Set up our before hooks
-	userService.before(hooks.before);
+	groupService.before(hooks.before);
 
 	// Set up our after hooks
-	userService.after(hooks.after);
+	groupService.after(hooks.after);
 };
