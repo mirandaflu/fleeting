@@ -24,11 +24,26 @@ export default class Group extends React.Component {
 			this.setState({ images: images });
 		}).catch(console.error);
 	}
+	handlePatchedImage(patchedImage) {
+		for (let i in this.state.images) {
+			if (patchedImage._id == this.state.images[i]._id) {
+				let newImages = this.state.images;
+				newImages[i] = patchedImage;
+				this.setState({ images: newImages });
+				break;
+			}
+		}
+	}
 	openPhotoTaker() { this.setState({ photoTakerOpen: true }); }
 	closePhotoTaker() { this.setState({ photoTakerOpen: false }); }
 	componentDidMount() {
 		this.getGroup();
 		this.getImages();
+		this.imagePatchedListener = this.handlePatchedImage.bind(this);
+		feathers_app.service('images').on('patched', this.imagePatchedListener);
+	}
+	componentWillUnmount() {
+		feathers_app.service('images').removeListener('patched', this.imagePatchedListener);
 	}
 	render() {
 		return (
