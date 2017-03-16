@@ -1,0 +1,42 @@
+* {
+	box-sizing: border-box;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.fourpoint {
+	margin: 4pt;
+	padding: 4pt;
+}
+.eightpoint {
+	margin: 8pt;
+	padding: 8pt;
+}
+
+.pure-menu-heading {
+	text-transform: none;
+}
+.pure-menu-link:focus {
+	background-color: transparent !important;
+}
+
+.navbar {
+	font-weight: bold;
+	position: fixed;
+	top: 0;
+	z-index: 200;
+}
+.navbar-container {
+	height: 40px;
+}
+.navbar span:hover {
+	background-color: transparent;
+}
+
+.group .square {
+  width: 100%;
+}
+.group .square:after {
+  content: "";
+  display: block;
+  padding-bottom: 90%;
+}

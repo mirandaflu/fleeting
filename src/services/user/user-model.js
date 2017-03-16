@@ -9,7 +9,8 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
 	googleId: { type: String, unique: true, trim: true, index: true, sparse: true },
-	username: { type: String, unique: true, trim: true, index: true, sparse: true }
+	username: { type: String, unique: true, trim: true, index: true, sparse: true },
+	displayname: { type: String }
 });
 
 const userModel = mongoose.model('user', userSchema);
