@@ -24,6 +24,7 @@
 	position: fixed;
 	top: 0;
 	z-index: 200;
+	height: 40px;
 }
 .navbar-container {
 	height: 40px;
@@ -39,4 +40,10 @@
   content: "";
   display: block;
   padding-bottom: 90%;
+}
+
+.tile {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
 }
