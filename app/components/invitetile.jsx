@@ -30,18 +30,18 @@ export default class InviteTile extends React.Component {
 	deactivate() { this.setState({ active: false, invitees: [] }); }
 	render() {
 		return (
-			<div className="pure-u-1-2 pure-u-sm-1-3 pure-u-md-1-4 pure-u-lg-1-5 pure-u-xl-1-6">
+			<div>
 				{!this.state.active &&
 					<button onClick={this.activate.bind(this)} className="pure-button">Invite Someone</button>
 				}
 				{this.state.active &&
-					<div>
-						<button onClick={this.deactivate.bind(this)}>Cancel</button>
+					<div style={{minWidth:'300px'}}>
 						<UserSelect
 							multi={true}
 							value={this.state.invitees}
 							onChange={this.handleInviteesChange.bind(this)} />
-						<button onClick={this.inviteSelected.bind(this)}>Add</button>
+						<button onClick={this.inviteSelected.bind(this)} className="pure-button button-secondary">Add</button>
+						<button onClick={this.deactivate.bind(this)} className="pure-button">Cancel</button>
 					</div>
 				}
 			</div>
