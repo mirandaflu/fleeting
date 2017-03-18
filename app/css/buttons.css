@@ -1,7 +1,12 @@
+.pure-button {
+	background-color: #FFFDFA
+}
+
 .button-success,
 .button-error,
 .button-warning,
-.button-secondary {
+.button-secondary,
+.button-dark {
 	color: white;
 }
 
@@ -19,6 +24,9 @@
 
 .button-secondary {
 	background: #609099; /* this is a light blue */
+}
+.button-dark {
+	background-color: #000133;
 }
 .button-xsmall {
 	font-size: 70%;

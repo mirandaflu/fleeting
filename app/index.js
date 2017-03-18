@@ -7,6 +7,8 @@ import io from 'socket.io-client';
 import localstorage from 'feathers-localstorage';
 
 import Skeleton from './components/skeleton.jsx';
+import PhotoTaker from './components/phototaker.jsx';
+import ImageViewer from './components/imageviewer.jsx';
 
 import Login from './pages/login.jsx';
 import Logout from './pages/logout.jsx';
@@ -47,7 +49,10 @@ class Root extends React.Component {
 			<Router history={browserHistory}>
 				<Route path="/" component={Skeleton}>
 					<IndexRoute component={Home} onEnter={requireAuth}></IndexRoute>
-					<Route path="group/:group" component={Group} onEnter={requireAuth} />
+					<Route path="group/:group" component={Group} onEnter={requireAuth}>
+						<Route path="image/:image" component={ImageViewer} />
+						<Route path="takephoto" component={PhotoTaker} />
+					</Route>
 					<Route path="account" component={Account} onEnter={requireAuth} />
 					<Route path="login" component={Login}></Route>
 					<Route path="logout" component={Logout} onEnter={feathers_app.logout}></Route>

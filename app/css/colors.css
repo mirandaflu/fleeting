@@ -1,7 +1,7 @@
 .maroon { background-color: #370B22; }
 .maroon-text { color: #370B22; }
 
-.creamsicle { background-color: #FFB27D; }
+.creamsicle { background-color: #FFB27D !important; }
 .creamsicle-text { color: #FFB27D; }
 .creamsicle-glow {
 	-webkit-box-shadow: 0 0 10px 2px #FFB27D;
@@ -9,7 +9,7 @@
 	box-shadow: 0 0 10px 2px #FFB27D; 
 }
 
-.paper { background-color: #FFFDFA; }
+.paper, .ReactModal__Content { background-color: #FFFDFA !important; }
 .paper-text { color: #FFFDFA; }
 
 .sky { background-color: #609099; }
@@ -17,13 +17,6 @@
 
 .dark { background-color: #000133; }
 .dark-text { color: #00001C; }
-
-.navbar.dark .pure-menu-heading {
-	color: #FFFDFA !important;
-}
-.navbar.dark .pure-menu-link:hover {
-	background-color: #609099;
-}
 
 .withdarkshadow {
 	-webkit-box-shadow: 0 2px 5px 2px rgba(0,1,33, 0.5);

@@ -14,8 +14,7 @@ class Group extends React.Component {
 				members: []
 			},
 			images: [],
-			editingName: false,
-			photoTakerOpen: false
+			editingName: false
 		};
 	}
 	getGroup() {
@@ -32,6 +31,9 @@ class Group extends React.Component {
 		if (patchedGroup._id == this.props.params.group) {
 			this.setState({ group: patchedGroup, name: patchedGroup.name });
 		}
+	}
+	handleCreatedImage(createdImage) {
+		this.setState({ images: this.state.images.concat(createdImage) });
 	}
 	handlePatchedImage(patchedImage) {
 		for (let i in this.state.images) {
@@ -55,8 +57,6 @@ class Group extends React.Component {
 			name: this.state.name
 		}).catch(console.error);
 	}
-	openPhotoTaker() { this.setState({ photoTakerOpen: true }); }
-	closePhotoTaker() { this.setState({ photoTakerOpen: false }); }
 	deleteGroup() {
 		if (!confirm('Are you sure?')) return;
 		feathers_app.service('groups').remove(this.props.params.group)
@@ -73,15 +73,18 @@ class Group extends React.Component {
 		this.getGroup();
 		this.getImages();
 		this.imagePatchedListener = this.handlePatchedImage.bind(this);
+		this.imageCreatedListener = this.handleCreatedImage.bind(this);
 		this.groupPatchedListener = this.handlePatchedGroup.bind(this);
 		this.dimensionListener = this.updateDimensions.bind(this);
 		feathers_app.service('images').on('patched', this.imagePatchedListener);
+		feathers_app.service('images').on('created', this.imageCreatedListener);
 		feathers_app.service('groups').on('patched', this.groupPatchedListener);
 		window.addEventListener('resize', this.dimensionListener);
 		this.updateDimensions();
 	}
 	componentWillUnmount() {
 		feathers_app.service('images').removeListener('patched', this.imagePatchedListener);
+		feathers_app.service('images').removeListener('created', this.imageCreatedListener);
 		feathers_app.service('groups').removeListener('patched', this.groupPatchedListener);
 		window.removeEventListener('resize', this.dimensionListener);
 	}
@@ -168,9 +171,11 @@ class Group extends React.Component {
 									{row.map(cell => {
 										return (
 											<Link key={cell._id}
-												className="tile"
+												className="tile paper-text eightpoint"
 												to={'/group/'+this.props.params.group+'/image/'+cell._id}
-												style={{display:'table-cell', backgroundImage:'url("'+cell.path+'")'}} />
+												style={{display:'table-cell', backgroundImage:'url("'+cell.path+'")'}}>
+												{cell.username}
+											</Link>
 										);
 									})}
 								</div>
@@ -186,17 +191,13 @@ class Group extends React.Component {
 					</div>
 				}
 
-				<button className="pure-button"
-					onClick={this.openPhotoTaker.bind(this)}
+				<Link to={'/group/'+this.props.params.group+'/takephoto'} className="pure-button button-secondary button-large"
 					style={{position:'fixed', bottom:0, right:0}}>
-					Update photo
-				</button>
+					<i className="fa fa-camera" />
+				</Link>
 
-				{this.state.photoTakerOpen &&
-					<PhotoTaker
-						group={this.props.params.group}
-						onFinished={this.closePhotoTaker.bind(this)} />
-				}
+				{this.props.children}
+
 			</div>
 		);
 	}
