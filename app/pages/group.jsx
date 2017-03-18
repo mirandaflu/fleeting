@@ -149,16 +149,16 @@ class Group extends React.Component {
 								</button>
 							</div>
 						}
-						<h4 style={{margin:'5pt 20pt', display:'inline-block'}}
+						<h4 style={{margin:'5pt 20pt', display:(this.state.editingName)?'none':'inline-block'}}
 							onClick={this.editName.bind(this)}>
-							&nbsp;{(this.state.editingName)? '': this.state.name}&nbsp;
+							{this.state.name}&nbsp;
 							{userIsAdmin && <i className="fa fa-pencil" />}
 						</h4>
 						<input ref={(input) => { this.nameInput = input; }} value={this.state.name}
 							onChange={this.handleNameChange.bind(this)}
-							style={{display:(this.state.editingName)?'inline-block':'none'}} />
+							style={{display:(this.state.editingName)?'inline-block':'none', height:'35px'}} />
 					</div>
-					<div className="pure-u-1"
+					<div className="pure-u-1 maroon"
 						style={{height:this.state.tileContainerHeight+'px', overflow:'hidden', display:'table'}}>
 
 						{rowArray.map(row => {
