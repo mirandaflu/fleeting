@@ -23,4 +23,14 @@ module.exports = function() {
 
 	// Set up our after hooks
 	imageService.after(hooks.after);
+
+	// Only let group members see image events
+	imageService.filter((data, connection, hook) => {
+		hook.app.service('groups').get(data.group).then(group => {
+			if (group.members.indexOf(connection.user._id) != -1) return data;
+			else return false;
+		}).catch(error => {
+			return false;
+		});
+	});
 };

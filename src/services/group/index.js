@@ -23,4 +23,10 @@ module.exports = function() {
 
 	// Set up our after hooks
 	groupService.after(hooks.after);
+
+	// Only let group members see group events
+	groupService.filter((data, connection) => {
+		if (data.members.indexOf(connection.user._id) != -1) return data;
+		else return false;
+	});
 };

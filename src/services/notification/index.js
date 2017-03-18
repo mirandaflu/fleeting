@@ -23,4 +23,10 @@ module.exports = function() {
 
 	// Set up our after hooks
 	notificationService.after(hooks.after);
+
+	// Only let a user see their own notification events
+	notificationService.filter((data, connection) => {
+		if (data.user == connection.user._id) return data;
+		else return false;
+	});
 };
