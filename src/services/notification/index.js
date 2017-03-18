@@ -26,7 +26,7 @@ module.exports = function() {
 
 	// Only let a user see their own notification events
 	notificationService.filter((data, connection) => {
-		if (data.user == connection.user._id) return data;
+		if (data.user.toString() == connection.user._id.toString()) return data;
 		else return false;
 	});
 };

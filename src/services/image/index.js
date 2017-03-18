@@ -26,11 +26,15 @@ module.exports = function() {
 
 	// Only let group members see image events
 	imageService.filter((data, connection, hook) => {
-		hook.app.service('groups').get(data.group).then(group => {
-			if (group.members.indexOf(connection.user._id) != -1) return data;
-			else return false;
-		}).catch(error => {
-			return false;
+		return new Promise((resolve, reject) => {
+			return hook.app.service('groups').get(data.group).then(group => {
+				return Promise.all(group.members.map(member => {
+					return member.toString();
+				})).then(members => {
+					if (members.indexOf(connection.user._id.toString()) != -1) resolve(data);
+					else reject();
+				})
+			}).catch(reject);
 		});
 	});
 };

@@ -26,7 +26,13 @@ module.exports = function() {
 
 	// Only let group members see group events
 	groupService.filter((data, connection) => {
-		if (data.members.indexOf(connection.user._id) != -1) return data;
-		else return false;
+		return new Promise((resolve, reject) => {
+			return Promise.all(data.members.map(member => {
+				return member.toString();
+			})).then(members => {
+				if (members.indexOf(connection.user._id.toString()) != -1) resolve(data);
+				else reject();
+			});
+		});
 	});
 };

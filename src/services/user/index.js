@@ -26,7 +26,7 @@ module.exports = function(){
 
 	// Only let a user see their own events
 	userService.filter((data, connection) => {
-		if (data._id == connection.user._id) return data;
+		if (data._id.toString() == connection.user._id.toString()) return data;
 		else return false;
 	});
 };
