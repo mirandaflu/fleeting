@@ -32,17 +32,19 @@ class Home extends React.Component {
 				{this.state.groups && this.state.groups.map(group => {
 					return (
 						<div key={group._id} className="group pure-u-1-2 pure-u-sm-1-3 pure-u-md-1-4 pure-u-lg-1-5 pure-u-xl-1-6">
-							<div className="square maroon" style={{border:'4pt solid #609099'}}>
-								<Link to={'/group/'+group._id} style={{padding:'8pt'}}>
+							<Link to={'/group/'+group._id}>
+								<div className="square maroon tile paper-text"
+									style={{backgroundImage:'url("'+group.recentImage+'")',
+									border:'4pt solid #609099', padding:'8pt', float:'right'}}>
 									{group.name}
-								</Link>
-							</div>
+								</div>
+							</Link>
 						</div>
 					);
 				})}
 				<div className="group pure-u-1-2 pure-u-sm-1-3 pure-u-md-1-4 pure-u-lg-1-5 pure-u-xl-1-6">
 					<div style={{padding:'8pt'}}>
-						<button onClick={this.createGroup.bind(this)} className="pure-button">New Group</button>
+						<button onClick={this.createGroup.bind(this)} className="pure-button">Create a Group</button>
 					</div>
 				</div>
 			</div>

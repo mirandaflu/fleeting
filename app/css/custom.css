@@ -3,6 +3,8 @@
 	font-family: 'Open Sans', sans-serif;
 }
 
+a { text-decoration: none }
+
 .fourpoint {
 	margin: 4pt;
 	padding: 4pt;

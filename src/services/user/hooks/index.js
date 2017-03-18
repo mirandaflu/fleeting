@@ -1,7 +1,7 @@
 'use strict';
 
 const globalHooks = require('../../../hooks');
-const hooks = require('feathers-hooks');
+const hooks = require('feathers-hooks-common');
 const auth = require('feathers-authentication').hooks;
 
 exports.before = {
@@ -17,17 +17,20 @@ exports.before = {
 		auth.restrictToAuthenticated()
 	],
 	create: [
-		auth.hashPassword()
+		auth.hashPassword(),
+		hooks.setUpdatedAt()
 	],
 	update: [
 		auth.verifyToken(),
 		auth.populateUser(),
-		auth.restrictToAuthenticated()
+		auth.restrictToAuthenticated(),
+		hooks.setUpdatedAt()
 	],
 	patch: [
 		auth.verifyToken(),
 		auth.populateUser(),
-		auth.restrictToAuthenticated()
+		auth.restrictToAuthenticated(),
+		hooks.setUpdatedAt()
 	],
 	remove: [
 		auth.verifyToken(),
