@@ -1,0 +1,13 @@
+{
+  "short_name": "Fleeting",
+  "name": "Fleeting",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "256x256",
+      "type": "image/ico"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone"
+}
