@@ -23,4 +23,16 @@ module.exports = function() {
 
 	// Set up our after hooks
 	groupService.after(hooks.after);
+
+	// Only let group members see group events
+	groupService.filter((data, connection) => {
+		return new Promise((resolve, reject) => {
+			return Promise.all(data.members.map(member => {
+				return member.toString();
+			})).then(members => {
+				if (members.indexOf(connection.user._id.toString()) != -1) resolve(data);
+				else reject();
+			});
+		});
+	});
 };

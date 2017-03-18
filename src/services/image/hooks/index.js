@@ -1,8 +1,10 @@
 'use strict';
 
 const globalHooks = require('../../../hooks');
-const hooks = require('feathers-hooks');
+const hooks = require('feathers-hooks-common');
 const auth = require('feathers-authentication').hooks;
+
+const localHooks = require('./hooks.js');
 
 exports.before = {
 	all: [
@@ -12,18 +14,30 @@ exports.before = {
 	],
 	find: [],
 	get: [],
-	create: [],
-	update: [],
-	patch: [],
+	create: [
+		hooks.setUpdatedAt()
+	],
+	update: [
+		hooks.setUpdatedAt()
+	],
+	patch: [
+		hooks.setUpdatedAt()
+	],
 	remove: []
 };
 
 exports.after = {
 	all: [],
-	find: [],
+	find: [
+		localHooks.populateUsername()
+	],
 	get: [],
-	create: [],
+	create: [
+		localHooks.updateGroupImage()
+	],
 	update: [],
-	patch: [],
+	patch: [
+		localHooks.updateGroupImage()
+	],
 	remove: []
 };

@@ -23,4 +23,10 @@ module.exports = function(){
 
 	// Set up our after hooks
 	userService.after(hooks.after);
+
+	// Only let a user see their own events
+	userService.filter((data, connection) => {
+		if (data._id.toString() == connection.user._id.toString()) return data;
+		else return false;
+	});
 };

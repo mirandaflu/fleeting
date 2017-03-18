@@ -10,6 +10,7 @@ const Schema = mongoose.Schema;
 
 const groupSchema = new Schema({
 	name: { type: String, required: true },
+	recentImage: { type: String },
 	admins: [ Schema.Types.ObjectId ],
 	members: [ Schema.Types.ObjectId ],
 	createdAt: { type: Date, 'default': Date.now },

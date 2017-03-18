@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
+import Modal from 'react-modal';
+import { Link, withRouter } from 'react-router';
 
 import ReactS3Uploader from 'react-s3-uploader';
 import axios from 'axios';
 
-export default class PhotoTaker extends React.Component {
+class PhotoTaker extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -12,9 +13,9 @@ export default class PhotoTaker extends React.Component {
 		}
 	}
 	startViewfinder() {
-		let video = this.refs.video;
 		if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 			navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+				let video = this.refs.video;
 				this._stream = stream;
 				video.src = window.URL.createObjectURL(stream);
 				video.play();
@@ -58,7 +59,7 @@ export default class PhotoTaker extends React.Component {
 			}).then(result => {
 				let query = {
 					user: feathers_app.get('user')._id,
-					group: this.props.group
+					group: this.props.params.group
 				};
 				feathers_app.service('images').find({query:query})
 					.then(images => {
@@ -66,11 +67,11 @@ export default class PhotoTaker extends React.Component {
 						if (images.length == 0) {
 							let image = {
 								user: feathers_app.get('user')._id,
-								group: this.props.group,
+								group: this.props.params.group,
 								path: path
 							};
 							feathers_app.service('images').create(image).then(result => {
-								this.props.onFinished();
+								this.props.router.push('/group/'+this.props.params.group);
 							}).catch(console.error);
 						}
 						else {
@@ -78,7 +79,7 @@ export default class PhotoTaker extends React.Component {
 							feathers_app.service('images').patch(images[0]._id, {
 								path: path
 							}).then(result => {
-								this.props.onFinished();
+								this.props.router.push('/group/'+this.props.params.group);
 							}).catch(console.error);	
 						}
 					}).catch(console.error);
@@ -93,25 +94,35 @@ export default class PhotoTaker extends React.Component {
 	}
 	render() {
 		return (
-			<div style={{height:'100vh',width:'100vw'}}>
+			<Modal isOpen={true} contentLabel="phototaker">
+				<Link to={'/group/'+this.props.params.group}
+					className="pure-button button-dark"
+					style={{float:'right'}}>
+					<i className="fa fa-close" />
+				</Link>
 
+				Tap image to take a photo
 				<video ref="video"
 					onClick={this.snapPhoto.bind(this)}
 					width="640" height="480" autoPlay
-					style={{width:'100vw', height:'100vh', display:(this.state.photoTaken)?'none':'inherit'}} />
+					style={{width:'100%', height:'auto',
+					display:(this.state.photoTaken)?'none':'inherit'}} />
 
 				<canvas ref="canvas"
 					width="640" height="480"
-					style={{display:(this.state.photoTaken)?'inherit':'none'}} />
+					style={{width:'100%', height:'auto', 
+					display:(this.state.photoTaken)?'inherit':'none'}} />
 
 				{this.state.photoTaken &&
 					<div>
-						<button onClick={this.uploadPhoto.bind(this)}>Accept</button>
-						<button onClick={this.clearPhoto.bind(this)}>Retake</button>
+						<button className="pure-button button-secondary" onClick={this.uploadPhoto.bind(this)}>Accept</button>
+						<button className="pure-button button-error" onClick={this.clearPhoto.bind(this)}>Retake</button>
 					</div>
 				}
 
-			</div>
+			</Modal>
 		);
 	}
 }
+
+module.exports = withRouter(PhotoTaker);

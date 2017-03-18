@@ -32,7 +32,9 @@ export default class InviteTile extends React.Component {
 		return (
 			<div>
 				{!this.state.active &&
-					<button onClick={this.activate.bind(this)} className="pure-button">Invite Someone</button>
+					<button onClick={this.activate.bind(this)} className="pure-button button-secondary button-large">
+						<i className="fa fa-user-plus" />
+					</button>
 				}
 				{this.state.active &&
 					<div style={{minWidth:'300px'}}>

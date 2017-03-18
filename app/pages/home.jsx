@@ -10,7 +10,7 @@ class Home extends React.Component {
 	}
 	getGroups() {
 		feathers_app.service('groups')
-			.find({query:{members:feathers_app.get('user')._id}})
+			.find({query:{members:feathers_app.get('user')._id, $sort:{updatedAt:-1}}})
 			.then(result => { this.setState({ groups: result }); })
 			.catch(console.error);
 	}
@@ -23,8 +23,24 @@ class Home extends React.Component {
 			this.props.router.push('/group/'+result._id);
 		}).catch(console.error);
 	}
+	handlePatchedGroup(patchedGroup) {
+		console.log('patchedGroup', patchedGroup);
+		for (let i in this.state.groups) {
+			if (patchedGroup._id == this.state.groups[i]._id) {
+				let newGroups = this.state.groups;
+				newGroups[i] = patchedGroup;
+				this.setState({ groups: newGroups });
+				break;
+			}
+		}
+	}
 	componentDidMount() {
 		this.getGroups();
+		this.groupPatchedListener = this.handlePatchedGroup.bind(this);
+		feathers_app.service('groups').on('patched', this.groupPatchedListener);
+	}
+	componentWillUnmount() {
+		feathers_app.service('groups').removeListener('patched', this.groupPatchedListener);
 	}
 	render() {
 		return (
@@ -32,17 +48,21 @@ class Home extends React.Component {
 				{this.state.groups && this.state.groups.map(group => {
 					return (
 						<div key={group._id} className="group pure-u-1-2 pure-u-sm-1-3 pure-u-md-1-4 pure-u-lg-1-5 pure-u-xl-1-6">
-							<div className="square maroon" style={{border:'4pt solid #609099'}}>
-								<Link to={'/group/'+group._id} style={{padding:'8pt'}}>
+							<Link to={'/group/'+group._id}>
+								<div className="square maroon tile paper-text"
+									style={{backgroundImage:'url("'+group.recentImage+'")',
+									border:'4pt solid #609099', padding:'8pt', float:'right'}}>
 									{group.name}
-								</Link>
-							</div>
+								</div>
+							</Link>
 						</div>
 					);
 				})}
 				<div className="group pure-u-1-2 pure-u-sm-1-3 pure-u-md-1-4 pure-u-lg-1-5 pure-u-xl-1-6">
 					<div style={{padding:'8pt'}}>
-						<button onClick={this.createGroup.bind(this)} className="pure-button">New Group</button>
+						<button onClick={this.createGroup.bind(this)} className="creamsicle pure-button button-large">
+							<i className="fa fa-plus" /> <i className="fa fa-users" />
+						</button>
 					</div>
 				</div>
 			</div>
