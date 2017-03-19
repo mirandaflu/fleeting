@@ -11,7 +11,8 @@ const Schema = mongoose.Schema;
 const imageSchema = new Schema({
 	user: { type: Schema.ObjectId, ref: 'user', required: true },
 	group: { type: Schema.ObjectId, ref: 'group', required: true },
-	path: { type: String },
+	key: { type: String },
+	oldKey: { type: String },
 	createdAt: { type: Date, 'default': Date.now }
 });
 

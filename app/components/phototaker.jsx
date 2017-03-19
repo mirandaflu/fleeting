@@ -63,21 +63,22 @@ class PhotoTaker extends React.Component {
 				};
 				feathers_app.service('images').find({query:query})
 					.then(images => {
-						let path = result.request.responseURL.split('?')[0];
+						let key = result.request.responseURL
+							.split('?')[0]
+							.split('amazonaws.com/')[1];
 						if (images.length == 0) {
 							let image = {
 								user: feathers_app.get('user')._id,
 								group: this.props.params.group,
-								path: path
+								key: key
 							};
 							feathers_app.service('images').create(image).then(result => {
 								this.props.router.push('/group/'+this.props.params.group);
 							}).catch(console.error);
 						}
 						else {
-							// TODO: delete old image from S3
 							feathers_app.service('images').patch(images[0]._id, {
-								path: path
+								key: key
 							}).then(result => {
 								this.props.router.push('/group/'+this.props.params.group);
 							}).catch(console.error);	

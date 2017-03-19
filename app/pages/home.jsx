@@ -24,7 +24,6 @@ class Home extends React.Component {
 		}).catch(console.error);
 	}
 	handlePatchedGroup(patchedGroup) {
-		console.log('patchedGroup', patchedGroup);
 		for (let i in this.state.groups) {
 			if (patchedGroup._id == this.state.groups[i]._id) {
 				let newGroups = this.state.groups;
@@ -52,7 +51,8 @@ class Home extends React.Component {
 							style={{padding:'4pt'}}>
 							<Link to={'/group/'+group._id}>
 								<div className="square maroon tile paper-text"
-									style={{backgroundImage:'url("'+group.recentImage+'")', padding:'8pt', textAlign:'right'}}>
+									style={{padding:'8pt', textAlign:'right',
+									backgroundImage:(group.recentImage)?'url("/s3/img/'+group.recentImage+'?token='+feathers_app.get('token')+'")': 'none'}}>
 									{group.name}
 								</div>
 							</Link>

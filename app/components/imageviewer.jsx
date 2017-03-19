@@ -21,7 +21,7 @@ class ImageViewer extends React.Component {
 					<i className="fa fa-close" />
 				</Link>
 
-				<img src={this.state.path} />
+				<img src={'/s3/img/'+this.state.key+'?token='+feathers_app.get('token')} />
 
 			</Modal>
 		);

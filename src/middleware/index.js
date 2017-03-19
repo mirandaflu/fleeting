@@ -13,17 +13,6 @@ module.exports = function() {
 	// handling middleware should go last.
 	const app = this;
 
-	aws.config.update({
-		accessKeyId: app.get('s3').accessKeyId,
-		secretAccessKey: app.get('s3').secretAccessKey
-	});
-
-	app.use('/s3', require('react-s3-uploader/s3router')({
-		bucket: app.get('s3').bucket,
-		ACL: 'public-read',
-		uniquePrefix: true
-	}));
-
 	// redirect to https in production
 	app.get('*', function(req,res,next) {
 		if (req.headers['x-forwarded-proto'] != 'https' && process.env.NODE_ENV === "production"){
@@ -33,6 +22,27 @@ module.exports = function() {
 			next();
 		}
 	});
+
+	// only allow authenticated users to create/get images
+	app.use('/s3/uploads/', (req, res, next) => {
+		if (req.feathers.token) next();
+		else res.sendStatus(403);
+	});
+	app.use('/s3/img/', (req, res, next) => {
+		if (req.feathers.token) next();
+		else res.sendStatus(403);
+	});
+
+	// set up s3 signing, upload GET path
+	aws.config.update({
+		accessKeyId: app.get('s3').accessKeyId,
+		secretAccessKey: app.get('s3').secretAccessKey
+	});
+	app.use('/s3', require('react-s3-uploader/s3router')({
+		bucket: app.get('s3').bucket,
+		ACL: 'private',
+		uniquePrefix: true
+	}));
 
 	// account for using react-router with browserHistory
 	app.get('*', function (request, response){
