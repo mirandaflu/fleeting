@@ -29,6 +29,44 @@ class PhotoTaker extends React.Component {
 			});
 		}
 	}
+	processFile(dataURL, fileType) {
+		var image = new Image();
+		image.src = dataURL;
+
+		image.onload = () => {
+			var canvas = this.refs.canvas;
+			canvas.width = image.width;
+			canvas.height = image.height;
+			var context = canvas.getContext('2d');
+			context.drawImage(image, 0, 0, image.width, image.height);
+
+			this.setState({ photoTaken: true });
+		};
+
+		image.onerror = () => {
+			alert('There was an error processing your file!');
+		};
+	}
+	readFile(file) {
+		var reader = new FileReader();
+		reader.onloadend = () => {
+			this.processFile(reader.result, file.type);
+		}
+		reader.onerror = () => {
+			alert('There was an error reading the file!');
+		}
+		reader.readAsDataURL(file);
+	}
+	handleUploadFile(event) {
+		let file = event.target.files[0];
+		if (file) {
+			if (/^image\//i.test(file.type)) {
+				this.readFile(file);
+			} else {
+				alert('Not a valid image!');
+			}
+		}
+	}
 	snapPhoto() {
 		let canvas = this.refs.canvas,
 			context = canvas.getContext('2d'),
@@ -102,7 +140,18 @@ class PhotoTaker extends React.Component {
 					<i className="fa fa-close" />
 				</Link>
 
-				Tap image to take a photo
+				<div className="eightpoint">
+					<span className="pure-button" onClick={this.snapPhoto.bind(this)}>Tap to take a photo</span>
+					<span className="eightpoint">or</span>
+					<input
+						id="file"
+						type="file"
+						accept="image/*"
+						style={{display:'none'}}
+						onChange={this.handleUploadFile.bind(this)} />
+					<label className="creamsicle maroon-text pure-button" htmlFor="file">Upload one instead</label>
+				</div>
+
 				<video ref="video"
 					onClick={this.snapPhoto.bind(this)}
 					width="640" height="480" autoPlay
