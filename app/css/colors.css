@@ -23,3 +23,7 @@
 	-moz-box-shadow: 0 2px 5px 2px rgba(0,1,33, 0.5);
 	box-shadow: 0 2px 5px 2px rgba(0,1,33, 0.5); 
 }
+
+.ReactModal__Overlay {
+	background-color: rgba(0, 1, 48, 0.3) !important;
+}

@@ -29,6 +29,44 @@ class PhotoTaker extends React.Component {
 			});
 		}
 	}
+	processFile(dataURL, fileType) {
+		var image = new Image();
+		image.src = dataURL;
+
+		image.onload = () => {
+			var canvas = this.refs.canvas;
+			canvas.width = image.width;
+			canvas.height = image.height;
+			var context = canvas.getContext('2d');
+			context.drawImage(image, 0, 0, image.width, image.height);
+
+			this.setState({ photoTaken: true });
+		};
+
+		image.onerror = () => {
+			alert('There was an error processing your file!');
+		};
+	}
+	readFile(file) {
+		var reader = new FileReader();
+		reader.onloadend = () => {
+			this.processFile(reader.result, file.type);
+		}
+		reader.onerror = () => {
+			alert('There was an error reading the file!');
+		}
+		reader.readAsDataURL(file);
+	}
+	handleUploadFile(event) {
+		let file = event.target.files[0];
+		if (file) {
+			if (/^image\//i.test(file.type)) {
+				this.readFile(file);
+			} else {
+				alert('Not a valid image!');
+			}
+		}
+	}
 	snapPhoto() {
 		let canvas = this.refs.canvas,
 			context = canvas.getContext('2d'),
@@ -63,21 +101,22 @@ class PhotoTaker extends React.Component {
 				};
 				feathers_app.service('images').find({query:query})
 					.then(images => {
-						let path = result.request.responseURL.split('?')[0];
+						let key = result.request.responseURL
+							.split('?')[0]
+							.split('amazonaws.com/')[1];
 						if (images.length == 0) {
 							let image = {
 								user: feathers_app.get('user')._id,
 								group: this.props.params.group,
-								path: path
+								key: key
 							};
 							feathers_app.service('images').create(image).then(result => {
 								this.props.router.push('/group/'+this.props.params.group);
 							}).catch(console.error);
 						}
 						else {
-							// TODO: delete old image from S3
 							feathers_app.service('images').patch(images[0]._id, {
-								path: path
+								key: key
 							}).then(result => {
 								this.props.router.push('/group/'+this.props.params.group);
 							}).catch(console.error);	
@@ -96,12 +135,23 @@ class PhotoTaker extends React.Component {
 		return (
 			<Modal isOpen={true} contentLabel="phototaker">
 				<Link to={'/group/'+this.props.params.group}
-					className="pure-button button-dark"
+					className="pure-button"
 					style={{float:'right'}}>
 					<i className="fa fa-close" />
 				</Link>
 
-				Tap image to take a photo
+				<div className="eightpoint">
+					<span className="pure-button" onClick={this.snapPhoto.bind(this)}>Tap to take a photo</span>
+					<span className="eightpoint">or</span>
+					<input
+						id="file"
+						type="file"
+						accept="image/*"
+						style={{display:'none'}}
+						onChange={this.handleUploadFile.bind(this)} />
+					<label className="creamsicle maroon-text pure-button" htmlFor="file">Upload one instead</label>
+				</div>
+
 				<video ref="video"
 					onClick={this.snapPhoto.bind(this)}
 					width="640" height="480" autoPlay

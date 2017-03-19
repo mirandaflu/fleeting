@@ -7,7 +7,7 @@ export default class Navbar extends React.Component {
 		return (
 			<div className="navbar-container">
 				<div className="navbar paper withdarkshadow pure-menu pure-menu-horizontal">
-					{!user && ['/login'].indexOf(this.props.path) == -1 &&
+					{!user && ['/login','/logout'].indexOf(this.props.path) == -1 &&
 						<Link to="/login" className="pure-menu-heading pure-menu-link" style={{float:'right'}}>
 							Sign in
 						</Link>

@@ -21,7 +21,8 @@ exports.before = {
 		hooks.setUpdatedAt()
 	],
 	patch: [
-		hooks.setUpdatedAt()
+		hooks.setUpdatedAt(),
+		localHooks.storeLastImageKey()
 	],
 	remove: []
 };
@@ -37,7 +38,8 @@ exports.after = {
 	],
 	update: [],
 	patch: [
-		localHooks.updateGroupImage()
+		localHooks.updateGroupImage(),
+		localHooks.deleteLastImageFromS3()
 	],
 	remove: []
 };

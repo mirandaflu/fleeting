@@ -173,7 +173,8 @@ class Group extends React.Component {
 											<Link key={cell._id}
 												className="tile paper-text eightpoint"
 												to={'/group/'+this.props.params.group+'/image/'+cell._id}
-												style={{display:'table-cell', backgroundImage:'url("'+cell.path+'")'}}>
+												style={{display:'table-cell',
+												backgroundImage:'url("/s3/img/'+cell.key+'?token='+feathers_app.get('token')+'")'}}>
 												{cell.username}
 											</Link>
 										);
