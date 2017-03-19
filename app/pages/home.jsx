@@ -61,7 +61,7 @@ class Home extends React.Component {
 				})}
 				<div className="group pure-u-1-2 pure-u-sm-1-3 pure-u-md-1-4 pure-u-lg-1-5 pure-u-xl-1-6">
 					<div style={{padding:'8pt'}}>
-						<button onClick={this.createGroup.bind(this)} className="creamsicle pure-button button-large">
+						<button onClick={this.createGroup.bind(this)} className="creamsicle maroon-text pure-button button-large">
 							<i className="fa fa-plus" /> <i className="fa fa-users" />
 						</button>
 					</div>

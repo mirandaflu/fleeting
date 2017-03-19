@@ -16,7 +16,7 @@ class ImageViewer extends React.Component {
 		return (
 			<Modal isOpen={true} contentLabel="imageviewer">
 				<Link to={'/group/'+this.props.params.group}
-					className="pure-button button-dark"
+					className="pure-button"
 					style={{float:'right'}}>
 					<i className="fa fa-close" />
 				</Link>

@@ -35,18 +35,6 @@ export default class Account extends React.Component {
 					this.refs.messageBanner.showMessage('Error: '+error.message);
 				});
 		}
-		else {
-			feathers_app.service('users').patch(feathers_app.get('user')._id, { username: this.refs.username.value })
-				.then(result => {
-					this.setState({ username: result.username, border: 'lightgreen' });
-					this.refs.messageBanner.clearMessage();
-				})
-				.catch(error => {
-					this.setState({ border: 'red' });
-					if (error.message.indexOf('duplicate') != -1) error.message = 'That username is taken'
-					this.refs.messageBanner.showMessage('Error: '+error.message);
-				});
-		}
 	}
 	componentDidMount() {
 		feathers_app.service('users').get(feathers_app.get('user')._id)
@@ -60,7 +48,7 @@ export default class Account extends React.Component {
 	}
 	render() {
 		return (
-			<div className="workspace">
+			<div className="eightpoint">
 				<MessageBanner ref="messageBanner" />
 				<form className="pure-form pure-form-aligned" onSubmit={this.updateUserName.bind(this)}>
 					<legend>
@@ -83,11 +71,18 @@ export default class Account extends React.Component {
 				<Link to="/logout" className="pure-button button-error">Log out</Link>
 				<Modal contentLabel="explainUsername" isOpen={this.state.modalOpen}>
 					<div className="modalContent">
-						<button className="pure-button button-small" onClick={this.closeModal.bind(this)}>
+						<button style={{float:'right'}}
+							className="pure-button button-small"
+							onClick={this.closeModal.bind(this)}>
 							<i className="fa fa-close" />
 						</button>
 						<h3>About Usernames</h3>
-						#TODO
+						<ul>
+							<li>You must have a username to be added to a group</li>
+							<li>Usernames are searchable by all users</li>
+							<li>You may change your username at any time, provided the new name is not taken</li>
+							<li>Groups will switch to showing your new name right after you make the change</li>
+						</ul>
 					</div>
 				</Modal>
 			</div>

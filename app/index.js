@@ -11,7 +11,6 @@ import PhotoTaker from './components/phototaker.jsx';
 import ImageViewer from './components/imageviewer.jsx';
 
 import Login from './pages/login.jsx';
-import Logout from './pages/logout.jsx';
 import Home from './pages/home.jsx';
 import Group from './pages/group.jsx';
 import Account from './pages/account.jsx';
@@ -55,7 +54,7 @@ class Root extends React.Component {
 					</Route>
 					<Route path="account" component={Account} onEnter={requireAuth} />
 					<Route path="login" component={Login}></Route>
-					<Route path="logout" component={Logout} onEnter={feathers_app.logout}></Route>
+					<Route path="logout" component={Login} onEnter={feathers_app.logout}></Route>
 					<Route path="*" component={Error} />
 				</Route>
 			</Router>
