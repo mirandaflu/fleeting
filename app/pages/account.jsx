@@ -8,7 +8,7 @@ export default class Account extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			username: null,
+			username: '',
 			border: 'lightgreen',
 			modalOpen: false
 		};
@@ -24,16 +24,20 @@ export default class Account extends React.Component {
 	updateUserName(event) {
 		event.preventDefault();
 		if (this.refs.username.value == '') {
-			feathers_app.service('users').patch(feathers_app.get('user')._id, { $unset: { username: 1 } })
+			this.setState({ border: 'red' });
+			this.refs.messageBanner.showMessage('Please choose a username');
+		}
+		else {
+			feathers_app.service('users').patch(feathers_app.get('user')._id, { username: this.refs.username.value })
 				.then(result => {
-					this.setState({ username: result.username, border: 'lightgrey' });
+					this.setState({ username: result.username, border: 'lightgreen' });
 					this.refs.messageBanner.clearMessage();
 				})
 				.catch(error => {
 					this.setState({ border: 'red' });
 					if (error.message.indexOf('duplicate') != -1) error.message = 'That username is taken'
 					this.refs.messageBanner.showMessage('Error: '+error.message);
-				});
+			});
 		}
 	}
 	componentDidMount() {
