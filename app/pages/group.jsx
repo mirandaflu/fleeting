@@ -169,11 +169,12 @@ class Group extends React.Component {
 							return (
 								<div key={rowNum} style={{display:'table-row'}}>
 									{row.map(cell => {
+										let cellWidth = (1/row.length*100) + '%';
 										return (
 											<Link key={cell._id}
 												className="tile paper-text eightpoint"
 												to={'/group/'+this.props.params.group+'/image/'+cell._id}
-												style={{display:'table-cell',
+												style={{display:'table-cell', width:cellWidth,
 												backgroundImage:'url("/s3/img/'+cell.key+'?token='+feathers_app.get('token')+'")'}}>
 												{cell.username}
 											</Link>
