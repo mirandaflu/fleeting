@@ -20,10 +20,16 @@ class Login extends React.Component {
 	render() {
 		return (
 			<div>
-				<div style={{position:'fixed', top:0, left:'15vw', width:'70vw', textAlign:'center', paddingTop:'20vh'}}>
-					<div className="eightpoint"><span className="eightpoint dark paper-text">Fleeting is a messaging app</span></div>
-					<div className="eightpoint"><span className="eightpoint maroon paper-text">where you communicate with only photos</span></div>
-					<div className="eightpoint"><span className="eightpoint sky paper-text">and you see only the most recent ones</span></div>
+				<div style={{position:'fixed', top:0, left:'5vw', width:'90vw', textAlign:'center', paddingTop:'20vh'}}>
+					<div className="eightpoint dark paper-text" style={{display:'inline-block'}}>
+						Fleeting is a messaging app
+					</div><br />
+					<div className="eightpoint maroon paper-text" style={{display:'inline-block'}}>
+						where you communicate with only photos
+					</div><br />
+					<div className="eightpoint sky paper-text" style={{display:'inline-block'}}>
+						and you see only the most recent ones
+					</div>
 				</div>
 				<div style={{position:'fixed', bottom:0, width:'100%', textAlign:'center', paddingBottom:'20vh'}}>
 					<MessageBanner ref="messageBanner" />
