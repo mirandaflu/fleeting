@@ -21,9 +21,9 @@ class Login extends React.Component {
 		return (
 			<div>
 				<div style={{position:'fixed', top:0, left:'15vw', width:'70vw', textAlign:'center', paddingTop:'20vh'}}>
-					<div className="eightpoint dark paper-text">Fleeting is a messaging app</div>
-					<div className="eightpoint maroon paper-text">where you communicate with only photos</div>
-					<div className="eightpoint sky paper-text">and you see only the most recent ones</div>
+					<div className="eightpoint"><span className="eightpoint dark paper-text">Fleeting is a messaging app</span></div>
+					<div className="eightpoint"><span className="eightpoint maroon paper-text">where you communicate with only photos</span></div>
+					<div className="eightpoint"><span className="eightpoint sky paper-text">and you see only the most recent ones</span></div>
 				</div>
 				<div style={{position:'fixed', bottom:0, width:'100%', textAlign:'center', paddingBottom:'20vh'}}>
 					<MessageBanner ref="messageBanner" />
